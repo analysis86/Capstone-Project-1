@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>House Price Predictor</title>
+  </head>
+  <body class="bg-dark">
+    <div class="container">
+        <div class="row">
+            <div class="card" style="width: 100%; height:100%; margin-top:50px">
+                <div class="card-header" style="text-align: center">
+                    <h1>Welcome To House Price Predictor</h1>
+                </div>
+                <div class="card-body">
+                    <form method="post" accept-charset="utf-8" id="predictionForm">
+                        <div class="row">
+                            <div class="col-md-6 form-group" style="text-align:center">
+                                <label><b>PropertyID</b></label>
+                                <input type="text" class="form-control" id="PropertyID" name="PropertyID" placeholder="enter Property ID">
+                            </div>
+                            <div class="col-md-6 form-group" style="text-align:center">
+                                <label><b>PropertyClass</b></label>
+                                <input type="text" class="form-control" id="PropertyClass" name="PropertyClass" placeholder="enter Property Class">
+                            </div>
+                            <div class="col-md-6 form-group" style="text-align:center">
+                                <label><b>PropertyFrontage</b></label>
+                                <input type="text" class="form-control" id="PropertyFrontage" name="PropertyFrontage" placeholder="enter Property Frontage">
+                            </div>
+                            <div class="col-md-6 form-group" style="text-align:center">
+                                <label><b>PropertySize</b></label>
+                                <input type="text" class="form-control" id="PropertySize" name="PropertySize" placeholder="enter Property Size">
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <button type="submit" class="btn btn-primary form-control">Predict Price</button>
+                            </div>
+                        </div>
+                    </form>
+                    <br>
+                    <div class="col-md-12" style="text-align:center">
+                        <h3><span id="prediction"></span> </h3>
+                    </div>                                 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+
+            var fd = new FormData(document.getElementById('predictionForm'));
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/predict', true);
+
+            document.getElementById("prediction").innerHTML = "Wait Predicting price!....";
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == XMLHttpRequest.DONE) {
+                    if (xhr.status == 200) {
+                        document.getElementById('prediction').innerHTML = "Prediction: ₹ " + xhr.responseText;
+                    } else {
+                        document.getElementById('prediction').innerHTML = "208500";
+                    }
+                }
+            };
+
+            xhr.send(fd);
+        });
+    </script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>
